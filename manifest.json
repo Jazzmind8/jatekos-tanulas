@@ -1,0 +1,26 @@
+{
+  "name": "Tanuljunk játszva!",
+  "short_name": "Tanuljunk",
+  "description": "Játékos informatikai gyakorlóoldalak gyerekeknek – Tomori Pál Általános Iskola",
+  "lang": "hu",
+  "start_url": "./tanuljunk-jatszva.html",
+  "scope": "./",
+  "id": "./tanuljunk-jatszva.html",
+  "display": "standalone",
+  "background_color": "#fff8ec",
+  "theme_color": "#6c5ce7",
+  "icons": [
+    {
+      "src": "tanuljunk-ikon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "tanuljunk-ikon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
