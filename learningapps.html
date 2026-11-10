@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tanuljunk játszva! – Tomori Pál Általános Iskola</title>
+<meta name="description" content="Játékos oktatási oldalak gyerekeknek: gépelés, internetbiztonság, logika, programozás, rajzolás, 3D építés és kvízek.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fff8ec;
+    --card: #ffffff;
+    --ink: #2d2a4a;
+    --muted: #6b6785;
+    --border: #ece4d6;
+    --primary: #6c5ce7;
+    --primary-dark: #5444c9;
+    --shadow: 0 6px 0 rgba(45, 42, 74, 0.08), 0 10px 24px rgba(45, 42, 74, 0.08);
+    --radius: 22px;
+    --cat-gepeles: #ffe7a3;
+    --cat-biztonsag: #c9f3e2;
+    --cat-logika: #d7e6ff;
+    --cat-programozas: #ffd6e7;
+    --cat-rajzolas: #ffe0cc;
+    --cat-3d: #e2d9ff;
+    --cat-atfogo: #d4f5c6;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 10% 0%, #ffe9c2 0, transparent 35%),
+      radial-gradient(circle at 90% 10%, #d9ecff 0, transparent 30%),
+      var(--bg);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  .wrap {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 28px 20px 48px;
+  }
+
+  /* ---------- Fejléc ---------- */
+  .school {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--muted);
+    box-shadow: 0 3px 0 var(--border);
+  }
+
+  header.hero {
+    text-align: center;
+    padding: 24px 0 12px;
+  }
+
+  .rocket { font-size: 3.4rem; margin: 0; animation: bob 3s ease-in-out infinite; }
+
+  h1 {
+    font-family: "Fredoka", "Nunito", sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    margin: 10px 0 6px;
+    color: var(--primary-dark);
+    letter-spacing: -0.5px;
+  }
+
+  .lead {
+    max-width: 620px;
+    margin: 0 auto;
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+
+  /* ---------- Név mező ---------- */
+  .namebox {
+    max-width: 520px;
+    margin: 26px auto 0;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .namebox label {
+    font-family: "Fredoka", sans-serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+  }
+
+  .namebox input {
+    font: inherit;
+    font-size: 1.05rem;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 2px solid var(--border);
+    background: #fdfcff;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+
+  .namebox input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.18);
+  }
+
+  .greet {
+    font-family: "Fredoka", sans-serif;
+    font-size: 1.2rem;
+    color: var(--primary-dark);
+    min-height: 1.6em;
+    text-align: center;
+    margin: 14px 0 0;
+  }
+
+  /* ---------- Szűrők és keresés ---------- */
+  .toolbar {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .chip {
+    font: inherit;
+    font-weight: 800;
+    font-size: 0.98rem;
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 2px solid var(--border);
+    background: var(--card);
+    color: var(--ink);
+    cursor: pointer;
+    box-shadow: 0 3px 0 var(--border);
+    transition: transform .1s ease, background .15s ease;
+  }
+
+  .chip:hover { transform: translateY(-1px); }
+  .chip:active { transform: translateY(2px); box-shadow: none; }
+
+  .chip[aria-pressed="true"] {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+    box-shadow: 0 3px 0 var(--primary-dark);
+  }
+
+  .search {
+    width: 100%;
+    max-width: 460px;
+    font: inherit;
+    font-size: 1rem;
+    padding: 13px 20px;
+    border-radius: 999px;
+    border: 2px solid var(--border);
+    background: var(--card);
+    color: var(--ink);
+    outline: none;
+  }
+
+  .search:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.18);
+  }
+
+  .count {
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  /* ---------- Kártyák ---------- */
+  .grid {
+    margin-top: 26px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 22px;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 20px 18px;
+    box-shadow: var(--shadow);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px) rotate(-0.4deg);
+    box-shadow: 0 10px 0 rgba(45, 42, 74, 0.08), 0 16px 32px rgba(45, 42, 74, 0.12);
+  }
+
+  .card:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .emoji {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    font-size: 1.8rem;
+    background: var(--cat-bg, #eee);
+  }
+
+  .card h2 {
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .tag {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--cat-bg, #eee);
+    color: var(--ink);
+  }
+
+  .desc {
+    margin: 14px 0 10px;
+    font-size: 1rem;
+    flex-grow: 1;
+  }
+
+  .learn {
+    font-size: 0.92rem;
+    color: var(--muted);
+    margin: 0 0 16px;
+  }
+
+  .learn b { color: var(--ink); }
+
+  .play {
+    align-self: flex-start;
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+    background: var(--primary);
+    padding: 9px 18px;
+    border-radius: 999px;
+    box-shadow: 0 4px 0 var(--primary-dark);
+    transition: transform .1s ease, box-shadow .1s ease;
+  }
+
+  .card:hover .play { background: var(--primary-dark); }
+  .card:active .play { transform: translateY(3px); box-shadow: 0 1px 0 var(--primary-dark); }
+
+  .card[hidden] { display: none; }
+
+  .empty {
+    display: none;
+    text-align: center;
+    color: var(--muted);
+    font-size: 1.1rem;
+    padding: 30px 0;
+  }
+
+  .empty.show { display: block; }
+
+  footer {
+    margin-top: 56px;
+    text-align: center;
+    color: var(--muted);
+    font-weight: 700;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rocket { animation: none; }
+    .card, .chip, .play { transition: none; }
+  }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 20px 14px 40px; }
+    .card { padding: 18px 16px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="school">🏫 Tomori Pál Általános Iskola</span>
+    <p class="rocket" aria-hidden="true">🚀</p>
+    <h1>Tanuljunk játszva!</h1>
+    <p class="lead">Válassz egy témát, és kattints egy kártyára – új ablakban nyílik meg a gyakorlóoldal.</p>
+  </header>
+
+  <div class="namebox">
+    <label for="nev">Írd be a neved:</label>
+    <input id="nev" type="text" placeholder="Pl.: Kovács Anna" autocomplete="name" maxlength="60">
+    <p id="greet" class="greet" aria-live="polite"></p>
+  </div>
+
+  <div class="toolbar">
+    <div class="chips" role="group" aria-label="Szűrés témakör szerint">
+      <button class="chip" data-filter="all" aria-pressed="true">⭐ Mind</button>
+      <button class="chip" data-filter="gepeles" aria-pressed="false">⌨️ Gépelés</button>
+      <button class="chip" data-filter="biztonsag" aria-pressed="false">🔒 Internetbiztonság</button>
+      <button class="chip" data-filter="logika" aria-pressed="false">🧠 Logika</button>
+      <button class="chip" data-filter="programozas" aria-pressed="false">💻 Programozás</button>
+      <button class="chip" data-filter="rajzolas" aria-pressed="false">🎨 Rajzolás</button>
+      <button class="chip" data-filter="3d" aria-pressed="false">🧱 3D építés</button>
+      <button class="chip" data-filter="atfogo" aria-pressed="false">🧩 Átfogó</button>
+    </div>
+
+    <input id="kereses" class="search" type="search" placeholder="🔍 Keresés… (pl. rajz, Scratch)" aria-label="Keresés">
+    <p id="szamlalo" class="count"></p>
+  </div>
+
+  <main class="grid" id="kartyak">
+
+    <!-- Gépelés -->
+    <a class="card" data-cat="gepeles" href="https://www.typingclub.com/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-gepeles)">
+      <div class="card-top"><span class="emoji">⌨️</span><div><h2>TypingClub</h2><span class="tag">Gépelés</span></div></div>
+      <p class="desc">Lépésről lépésre tanítja a tízujjas vakírást, letisztult felülettel, saját tempóban.</p>
+      <p class="learn"><b>Mit tanulsz:</b> tízujjas gépelés, sebesség és pontosság</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="gepeles" href="https://www.ratatype.com/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-gepeles)">
+      <div class="card-top"><span class="emoji">⌨️</span><div><h2>Ratatype</h2><span class="tag">Gépelés</span></div></div>
+      <p class="desc">Ingyenes gépelőtanfolyam egyszerű felülettel, követhető statisztikákkal.</p>
+      <p class="learn"><b>Mit tanulsz:</b> gépelési alapok, pontosság, sebességmérés</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="gepeles" href="https://www.keybr.com/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-gepeles)">
+      <div class="card-top"><span class="emoji">⌨️</span><div><h2>Keybr</h2><span class="tag">Gépelés</span></div></div>
+      <p class="desc">Okos gépelőgyakorló, ami a gyenge pontjaidra fókuszál. Nagyon nyugodt design.</p>
+      <p class="learn"><b>Mit tanulsz:</b> problémás billentyűk célzott gyakorlása</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="gepeles" href="https://www.typing.com/student/games" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-gepeles)">
+      <div class="card-top"><span class="emoji">⌨️</span><div><h2>Typing.com – Játékok</h2><span class="tag">Gépelés</span></div></div>
+      <p class="desc">Ingyenes gépelős játékok: zombikat űzöl, lufikat pattintasz, űrhajót mentesz – a saját szintedre szabva.</p>
+      <p class="learn"><b>Mit tanulsz:</b> gépelési sebesség (WPM) és pontosság játék közben</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="gepeles" href="https://10fastfingers.com/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-gepeles)">
+      <div class="card-top"><span class="emoji">⌨️</span><div><h2>10FastFingers</h2><span class="tag">Gépelés</span></div></div>
+      <p class="desc">1 perces sebességmérés és élő versenyek: írd a megjelenő szavakat, és mérd össze az eredményed a barátaiddal.</p>
+      <p class="learn"><b>Mit tanulsz:</b> gépelési sebesség (WPM), pontosság, reflexek</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="gepeles" href="https://xn--programozsgyerekeknek-i0b.my.canva.site/shiftandaltgr" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-gepeles)">
+      <div class="card-top"><span class="emoji">⌨️</span><div><h2>Shift és Alt Gr gyakorló</h2><span class="tag">Gépelés</span></div></div>
+      <p class="desc">Magyar billentyűzeten mutatja meg, mit tud a Shift és az Alt Gr: nagy betűk, ékezetek, speciális karakterek – gyakorlómezőkkel.</p>
+      <p class="learn"><b>Mit tanulsz:</b> módosító billentyűk helyes használata</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <!-- Internetbiztonság -->
+    <a class="card" data-cat="biztonsag" href="https://beinternetawesome.withgoogle.com/hu_hu/interland" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-biztonsag)">
+      <div class="card-top"><span class="emoji">🔒</span><div><h2>Internet Ásza</h2><span class="tag">Internetbiztonság</span></div></div>
+      <p class="desc">Kalandjáték magyarul: jelszavak, személyes adatok, kedves online viselkedés.</p>
+      <p class="learn"><b>Mit tanulsz:</b> jelszókezelés, adatvédelem, online etikett</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="biztonsag" href="https://www.gvh.hu/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-biztonsag)">
+      <div class="card-top"><span class="emoji">🔒</span><div><h2>GVH Digitális Tudatosság</h2><span class="tag">Internetbiztonság</span></div></div>
+      <p class="desc">Iskolai program 10–16 éveseknek a tudatos internethasználatról.</p>
+      <p class="learn"><b>Mit tanulsz:</b> manipulatív reklámok felismerése, adatvédelem</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="biztonsag" href="https://www.gvh.hu/pfile/file?path=/gvh/digitalis-tudatossag-program/Legyel_pro_a_neten_-_plakat.pdf1&inline=true" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-biztonsag)">
+      <div class="card-top"><span class="emoji">🔒</span><div><h2>Légy pro a neten – poszter</h2><span class="tag">Internetbiztonság</span></div></div>
+      <p class="desc">A GVH Digitális Tudatosság Program posztere egy lapon szedi össze a legfontosabb online biztonsági tudnivalókat. Megnézheted a böngészőben, vagy kinyomtathatod a falra.</p>
+      <p class="learn"><b>Mit tanulsz:</b> tudatos, biztonságos viselkedés az interneten</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="biztonsag" href="https://www.gvh.hu/pfile/file?path=/gvh/digitalis-tudatossag-program/Jotanacsok_online_vasarlashoz_plakat.pdf1&inline=true" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-biztonsag)">
+      <div class="card-top"><span class="emoji">🔒</span><div><h2>Jótanácsok online vásárláshoz – poszter</h2><span class="tag">Internetbiztonság</span></div></div>
+      <p class="desc">A GVH Digitális Tudatosság Program posztere az online vásárlás jó tanácsairól. Megnézheted a böngészőben, vagy kinyomtathatod a falra.</p>
+      <p class="learn"><b>Mit tanulsz:</b> tudatos online vásárlás</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="biztonsag" href="https://detekto.hu/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-biztonsag)">
+      <div class="card-top"><span class="emoji">🔒</span><div><h2>Detekto.hu</h2><span class="tag">Internetbiztonság</span></div></div>
+      <p class="desc">Magyar oldal az álhírekről: hogyan ismerd fel a kamu videókat és a gyanús tartalmakat.</p>
+      <p class="learn"><b>Mit tanulsz:</b> álhír-felismerés, információellenőrzés, kritikus gondolkodás</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <!-- Logika -->
+    <a class="card" data-cat="logika" href="https://e-hod.elte.hu/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-logika)">
+      <div class="card-top"><span class="emoji">🧠</span><div><h2>e-Hód</h2><span class="tag">Logika</span></div></div>
+      <p class="desc">Az ELTE Bebras-versenye: korábbi feladatok és megoldások korosztály szerint.</p>
+      <p class="learn"><b>Mit tanulsz:</b> algoritmikus gondolkodás, mintafelismerés</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="logika" href="https://e-hod.cuttle.org/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-logika)">
+      <div class="card-top"><span class="emoji">🧠</span><div><h2>e-Hód gyakorló (cuttle.org)</h2><span class="tag">Logika</span></div></div>
+      <p class="desc">A bitHÓDítás felülete: bejelentkezés után a korosztályod kategóriájában gyakorolhatod a hód feladatokat.</p>
+      <p class="learn"><b>Mit tanulsz:</b> algoritmikus gondolkodás, logikai fejtörők megoldása</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="logika" href="https://amt.edu.au/bebras-365" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-logika)">
+      <div class="card-top"><span class="emoji">🧠</span><div><h2>Bebras 365</h2><span class="tag">Logika</span></div></div>
+      <p class="desc">A Bebras-verseny feladatai egész évben, saját időben és tempóban – nem kell várni a versenyre.</p>
+      <p class="learn"><b>Mit tanulsz:</b> problémamegoldás, absztrakció</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="logika" href="https://www.okosdoboz.hu/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-logika)">
+      <div class="card-top"><span class="emoji">🧠</span><div><h2>Okosdoboz</h2><span class="tag">Logika</span></div></div>
+      <p class="desc">Több mint 10 000 grafikus feladat és 30 gondolkodásfejlesztő játék magyarul.</p>
+      <p class="learn"><b>Mit tanulsz:</b> emlékezet, figyelem, problémamegoldás, internetbiztonság</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="logika" href="https://learningapps.org/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-logika)">
+      <div class="card-top"><span class="emoji">🧠</span><div><h2>LearningApps</h2><span class="tag">Logika</span></div></div>
+      <p class="desc">Rengeteg párosító, sorrendező és logikai feladat – akár sajátot is készíthetsz.</p>
+      <p class="learn"><b>Mit tanulsz:</b> kategorizálás, sorrendezés, memória</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <!-- Programozás -->
+    <a class="card" data-cat="programozas" href="https://doodles.google/doodle/celebrating-50-years-of-kids-coding/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-programozas)">
+      <div class="card-top"><span class="emoji">💻</span><div><h2>Coding for Carrots – Google Doodle</h2><span class="tag">Programozás</span></div></div>
+      <p class="desc">Blokkokból rakd össze a nyuszi útját, és gyűjtsd a sárgarépákat 6 szinten – a gyerekeknek való programozás 50. évfordulójára készült.</p>
+      <p class="learn"><b>Mit tanulsz:</b> parancsok sorrendje, ciklusok (hurkok), hibakeresés</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="programozas" href="https://code.org/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-programozas)">
+      <div class="card-top"><span class="emoji">💻</span><div><h2>Code.org</h2><span class="tag">Programozás</span></div></div>
+      <p class="desc">Blokkprogramozás Minecraft és Frozen témákkal, egészen a JavaScriptig.</p>
+      <p class="learn"><b>Mit tanulsz:</b> ciklusok, feltételek, hibakeresés</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="programozas" href="https://blockly.games/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-programozas)">
+      <div class="card-top"><span class="emoji">💻</span><div><h2>Blockly Games</h2><span class="tag">Programozás</span></div></div>
+      <p class="desc">Hét játék vizuális blokkokkal, fokozatosan nehezedő feladatokkal.</p>
+      <p class="learn"><b>Mit tanulsz:</b> ciklusok, feltételek, függvények</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="programozas" href="https://scratch.mit.edu/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-programozas)">
+      <div class="card-top"><span class="emoji">💻</span><div><h2>Scratch</h2><span class="tag">Programozás</span></div></div>
+      <p class="desc">Készíts saját játékokat, animációkat és történeteket blokkokkal!</p>
+      <p class="learn"><b>Mit tanulsz:</b> kreatív programozás, változók, események</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="programozas" href="https://www.lightbot.lu/#/welcome" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-programozas)">
+      <div class="card-top"><span class="emoji">💻</span><div><h2>Lightbot</h2><span class="tag">Programozás</span></div></div>
+      <p class="desc">Programozd meg a robotot, hogy felkapcsolja az összes izzót: a parancsokat sorba rakod, és saját kis eljárást (függvényt) is alkothatsz belőlük.</p>
+      <p class="learn"><b>Mit tanulsz:</b> algoritmusok, függvények, lépésről lépésre tervezés</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <!-- Rajzolás -->
+    <a class="card" data-cat="rajzolas" href="https://www.pixilart.com/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-rajzolas)">
+      <div class="card-top"><span class="emoji">🎨</span><div><h2>Pixilart</h2><span class="tag">Rajzolás</span></div></div>
+      <p class="desc">Pixel-art rajzoló a böngészőben, rétegekkel és animációval.</p>
+      <p class="learn"><b>Mit tanulsz:</b> pixelgrafika, színek, türelem</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="rajzolas" href="https://sketch.io/sketchpad/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-rajzolas)">
+      <div class="card-top"><span class="emoji">🎨</span><div><h2>Sketchpad</h2><span class="tag">Rajzolás</span></div></div>
+      <p class="desc">Online rajzolóprogram regisztráció nélkül, sok ecsettel és formával.</p>
+      <p class="learn"><b>Mit tanulsz:</b> digitális rajzolás, kompozíció</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="rajzolas" href="https://www.autodraw.com/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-rajzolas)">
+      <div class="card-top"><span class="emoji">🎨</span><div><h2>AutoDraw</h2><span class="tag">Rajzolás</span></div></div>
+      <p class="desc">Kezdj el rajzolni, és a gép szép ikonná varázsolja a vonalaidat!</p>
+      <p class="learn"><b>Mit tanulsz:</b> formaérzékelés, vizuális kommunikáció</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="rajzolas" href="https://doodles.games/game/pixel-art-color-by-numbers/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-rajzolas)">
+      <div class="card-top"><span class="emoji">🎨</span><div><h2>Pixel Art – Color by Numbers</h2><span class="tag">Rajzolás</span></div></div>
+      <p class="desc">Színezz számok szerint: minden négyzetbe a rajta lévő számnak megfelelő szín kerül, és a végén kész pixelkép marad.</p>
+      <p class="learn"><b>Mit tanulsz:</b> pixelgrafika, szám és szín egyeztetése, türelem</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="rajzolas" href="https://artsandculture.google.com/experiment/play-a-kandinsky/sgF5ivv105ukhA" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-rajzolas)">
+      <div class="card-top"><span class="emoji">🎨</span><div><h2>Play a Kandinsky</h2><span class="tag">Rajzolás</span></div></div>
+      <p class="desc">Vaszilij Kandinszkij festményét játszhatod el hangszerként: a formák és színek hangot adnak, és a saját előadásod közben új rajzok születnek.</p>
+      <p class="learn"><b>Mit tanulsz:</b> a szín, a forma és a hang kapcsolata, zenei érzék</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <!-- 3D építés -->
+    <a class="card" data-cat="3d" href="https://www.mecabricks.com/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-3d)">
+      <div class="card-top"><span class="emoji">🧱</span><div><h2>Mecabricks</h2><span class="tag">3D építés</span></div></div>
+      <p class="desc">3D-s kockaépítő a böngészőben: építs és renderelj LEGO-modelleket telepítés nélkül.</p>
+      <p class="learn"><b>Mit tanulsz:</b> térbeli gondolkodás, tervezés, türelem</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <!-- Átfogó -->
+    <a class="card" data-cat="atfogo" href="https://artsandculture.google.com/play" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-atfogo)">
+      <div class="card-top"><span class="emoji">🧩</span><div><h2>Google Arts &amp; Culture – Play</h2><span class="tag">Átfogó</span></div></div>
+      <p class="desc">Több mint 2000 múzeum és archívum kreatív játékai egy helyen: színezés, zene, keresztrejtvény, kvíz és kaland, mind a böngészőben.</p>
+      <p class="learn"><b>Mit tanulsz:</b> művészet, kultúra és logika játékos formában</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="atfogo" href="https://kahoot.com/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-atfogo)">
+      <div class="card-top"><span class="emoji">🧩</span><div><h2>Kahoot!</h2><span class="tag">Átfogó</span></div></div>
+      <p class="desc">Kvízek és kérdéssorok játékos formában: a tanár kódját a kahoot.it oldalon írod be, és versenyezhetsz az osztályoddal.</p>
+      <p class="learn"><b>Mit tanulsz:</b> figyelem, gyors döntés, tanultak ismétlése</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+    <a class="card" data-cat="atfogo" href="https://digitalistemahet.hu/" target="_blank" rel="noopener noreferrer" style="--cat-bg: var(--cat-atfogo)">
+      <div class="card-top"><span class="emoji">🧩</span><div><h2>Digitális Témahét</h2><span class="tag">Átfogó</span></div></div>
+      <p class="desc">Iskolai programok, versenyek és IT Fitneszteszt egy helyen.</p>
+      <p class="learn"><b>Mit tanulsz:</b> digitális kompetenciák, önértékelés</p>
+      <span class="play">Irány játszani! →</span>
+    </a>
+
+  </main>
+
+  <p id="ures" class="empty">Nincs találat. Próbálj másik szót vagy témakört!</p>
+
+  <footer>Minden oldal ingyenes · Jó tanulást! 🌈</footer>
+</div>
+
+<script>
+(function () {
+  const cards = Array.from(document.querySelectorAll('.card'));
+  const chips = Array.from(document.querySelectorAll('.chip'));
+  const search = document.getElementById('kereses');
+  const counter = document.getElementById('szamlalo');
+  const empty = document.getElementById('ures');
+  const nameInput = document.getElementById('nev');
+  const greet = document.getElementById('greet');
+
+  let activeFilter = 'all';
+
+  function applyFilters() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach(function (card) {
+      const matchCat = activeFilter === 'all' || card.dataset.cat === activeFilter;
+      const matchText = !q || card.textContent.toLowerCase().includes(q);
+      const visible = matchCat && matchText;
+      card.hidden = !visible;
+      if (visible) shown++;
+    });
+    counter.textContent = shown + ' játék látható';
+    empty.classList.toggle('show', shown === 0);
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      activeFilter = chip.dataset.filter;
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+      applyFilters();
+    });
+  });
+
+  search.addEventListener('input', applyFilters);
+
+  // Név mező: a megadott nevet a böngésző helyben tárolja (nem megy el szerverre)
+  function updateGreeting() {
+    const name = nameInput.value.trim();
+    greet.textContent = name ? 'Szia, ' + name + '! Válassz egy játékot 🎉' : '';
+  }
+
+  try {
+    const saved = localStorage.getItem('tanuljunk-nev');
+    if (saved) nameInput.value = saved;
+  } catch (e) { /* tárolás nem elérhető, nem baj */ }
+
+  nameInput.addEventListener('input', function () {
+    updateGreeting();
+    try { localStorage.setItem('tanuljunk-nev', nameInput.value.trim()); } catch (e) {}
+  });
+
+  updateGreeting();
+  applyFilters();
+})();
+</script>
+</body>
+</html>
